@@ -18,6 +18,7 @@ export default class Form extends Component {
                     </label>
                     <br /><br />
 
+                    <div>Choose comforatable date</div>
                     <div class="radio-toolbar">
                         <input type="radio" id="radioApple" name="radioFruit" value="apple" />
                         <label for="radioApple">Apple</label>
