@@ -1,0 +1,20 @@
+{
+  "name": "slot-booking",
+  "version": "1.0.0",
+  "description": "- So like, 11 ppl had to present some papers in class, on different days. - I didnt want to manually note down who is presenting what on which day, cuz it seems like a lot of work  - So I decided to make a slot-booking website instead",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RohanBera/why-am-i-doing-this.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RohanBera/why-am-i-doing-this/issues"
+  },
+  "homepage": "https://github.com/RohanBera/why-am-i-doing-this#readme"
+}
