@@ -4,7 +4,8 @@
   "description": "- So like, 11 ppl had to present some papers in class, on different days. - I didnt want to manually note down who is presenting what on which day, cuz it seems like a lot of work  - So I decided to make a slot-booking website instead",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/RohanBera/why-am-i-doing-this/issues"
   },
-  "homepage": "https://github.com/RohanBera/why-am-i-doing-this#readme"
+  "homepage": "https://github.com/RohanBera/why-am-i-doing-this#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "10.19.0"
+  }
 }
