@@ -1,6 +1,25 @@
 import React, { Component } from "react";
 
 export default class Form extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {}
+    }
+
+    /**************** Event handlers *****************/
+
+
+
+    /**************** Fetch dates and slots *******************/
+
+    fetchDates = async () => {
+
+    }
+
+    componentDidMount = async () => {
+        this.fetchDates();
+    }
+
     render() {
         return (
             <div className="form">
@@ -42,7 +61,8 @@ export default class Form extends Component {
                             id="pdf"
                             placeholder="Research paper"
                         />
-                    </label>
+                    </label> <br />
+                    <button>Submit</button>
                 </form>
             </div>
         );
