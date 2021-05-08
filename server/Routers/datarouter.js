@@ -1,13 +1,8 @@
 const Router = require('express').Router;
-const {DataEntries} = require('../Models/data');
 const DataRouter = Router();
 
-DataRouter.get('/',(req, res) => {
-    DataEntries.find().then((data) => {
-        res.json(data);
-    }).catch((err) => {
-        res.json({message: err.message});
-    });
+app.get("/update", (req, res) => {
+    res.json(update(req1.query, req1.update, req1.options))
 });
 
 module.exports = {
