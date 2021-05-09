@@ -9,16 +9,27 @@ var req1 = {
 }
 
 DataRouter.get("/update", (req, res) => {
-    const data = update(req1.query, req1.update, req1.options);
-    res.json(data);
+    update(req1.query, req1.update, req1.options).then((data) => {
+        res.json(data);
+    }).catch(err => {
+        res.json({ message: err.message});
+    });
 });
 
 DataRouter.get("/view", (req, res) => {
-    res.json(view());
+    view().then((data) => {
+        res.json(data);
+    }).catch(err => {
+        res.json({ message: err.message});
+    });
 });
 
 DataRouter.get("/create", (req, res) => {
-    const data = create(req);
+    create(req).then((data) => {
+        res.json(data);
+    }).catch(err => {
+        res.json({ message: err.message });
+    });
     res.json(data);
 });
 

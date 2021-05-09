@@ -12,38 +12,40 @@ const DataEntriesSchema = Schema({
 const DataEntries = mongoose.model("data-entries", DataEntriesSchema);
 
 // create
-const create = (entry) => {
-    DataEntries.create(entry).then((data) => {
-        return data;
-    }).catch((err) => {
-        return { message: err.message };
-    })
+const create = async (entry) => {
+    try{
+        data = DataEntries.create(entry);
+    }
+    catch(err){
+        data = { message: err.message };
+        throw err;
+    }
+    return data;
 }
 
 // View 
-const view = () => {
-    DataEntries.find()
-        .then((data) => {
-            return data;
-        }).catch((err) => {
-            return { message: err.message };
-        })
+const view = async () => {
+    try{
+        data = DataEntries.find();
+    }
+    catch(err){
+        data = { message: err.message };
+        throw err;
+    }
+    return data;
 }
 
-
 // update
-const update = (query, update, options) => {
-    DataEntries.findOneAndUpdate(query, update, options)
-        .then((data) => {
-            if (data) {
-                console.log(data);
-                return data
-            }
-            else
-                console.log("No data found");
-        }).catch(err => {
-            return { message: err.message };
-        })
+const update = async (query, update, options) => {
+    try{
+        data = DataEntries.findOneAndUpdate(query, update, options)
+        if(!data){console.log("No data found");}
+    }
+    catch(err){
+        data = { message: err.message };
+        throw err;
+    }
+    return data;
 }
 
 module.exports = {
