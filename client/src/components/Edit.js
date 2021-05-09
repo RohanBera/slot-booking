@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import dates from "../dates.json";
+
 
 export default class Edit extends Component {
     constructor(props) {
@@ -28,7 +30,7 @@ export default class Edit extends Component {
         return (
             <div className="form">
                 <form>
-                    <label for="id">
+                    <label htmlFor="id">
                         <div>
                             Roll number
                         </div>
@@ -41,18 +43,16 @@ export default class Edit extends Component {
                     </label>
                     <br /><br />
 
-                    {this.state.updateDate &&
+                    {!this.state.updateDate &&
                         <div>
                             <div>Update date</div>
-                            <div class="radio-toolbar">
-                                <input type="radio" id="radioApple" name="radioFruit" value="apple" />
-                                <label for="radioApple">Apple</label>
-
-                                <input type="radio" id="radioBanana" name="radioFruit" value="banana" />
-                                <label for="radioBanana">Banana</label>
-
-                                <input type="radio" id="radioOrange" name="radioFruit" value="orange" />
-                                <label for="radioOrange">Orange</label>
+                            <div className="radio-toolbar">
+                                {dates.dates.map(date => (
+                                    <div key={date._id}>
+                                        <input type="radio" id={date.date} name="date" value={date.date} />
+                                        <label htmlFor={date.date} >{date.date + " " + date.day}</label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     }

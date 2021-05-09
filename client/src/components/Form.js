@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import dates from "../dates.json";
 
 export default class Form extends Component {
     constructor(props) {
@@ -13,6 +14,10 @@ export default class Form extends Component {
     /**************** Fetch dates and slots *******************/
 
     fetchDates = async () => {
+        // let URL = localStorage.getItem('instance-url')
+        let URL = "https://localhost:3002";
+
+        // const dates = await fetch(URL + "/date/view");
 
     }
 
@@ -24,7 +29,7 @@ export default class Form extends Component {
         return (
             <div className="form">
                 <form>
-                    <label for="id">
+                    <label htmlFor="id">
                         <div>
                             Roll number
                         </div>
@@ -38,19 +43,19 @@ export default class Form extends Component {
                     <br /><br />
 
                     <div>Choose comforatable date</div>
-                    <div class="radio-toolbar">
-                        <input type="radio" id="radioApple" name="radioFruit" value="apple" />
-                        <label for="radioApple">Apple</label>
-
-                        <input type="radio" id="radioBanana" name="radioFruit" value="banana" />
-                        <label for="radioBanana">Banana</label>
-
-                        <input type="radio" id="radioOrange" name="radioFruit" value="orange" />
-                        <label for="radioOrange">Orange</label>
-                    </div>
+                    {
+                        <div className="radio-toolbar">
+                            {dates.dates.map(date => (
+                                <div key={date._id}>
+                                    <input type="radio" id={date.date} name="date" value={date.date} />
+                                    <label htmlFor={date.date} >{date.date + " " + date.day}</label>
+                                </div>
+                            ))}
+                        </div>
+                    }
                     <br /><br />
 
-                    <label for="pdf">
+                    <label htmlFor="pdf">
                         <div>
                             Research paper
                         </div>

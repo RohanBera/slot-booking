@@ -1,7 +1,38 @@
 {
   "dates": [
     {
-      "_id": ""
+      "_id": 1,
+      "date": "1",
+      "day": "fri",
+      "slots": 2
+    },
+
+    {
+      "_id": 2,
+      "date": "2",
+      "day": "wed",
+      "slots": 3
+    },
+
+    {
+      "_id": 3,
+      "date": "3",
+      "day": "fri",
+      "slots": 2
+    },
+
+    {
+      "_id": 4,
+      "date": "4",
+      "day": "wed",
+      "slots": 3
+    },
+
+    {
+      "_id": 5,
+      "date": "5",
+      "day": "fri",
+      "slots": 2
     }
   ]
 }

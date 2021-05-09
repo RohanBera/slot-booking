@@ -9,6 +9,7 @@ const app = express();
 const con = require("./connect");
 
 const { DataRouter } = require("./Routers/datarouter");
+const { DateRouter } = require('./Routers/dateRouter');
 
 con.connect();
 
@@ -18,6 +19,9 @@ app.listen(PORT, () => {
 
 //data-entries routes
 app.use("/entry", DataRouter);
+
+//dates routes 
+app.use("/date", DateRouter);
 
 // app.use(express.static(path.resolve(__dirname,'../client/build')));
 
