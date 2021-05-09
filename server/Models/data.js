@@ -12,26 +12,15 @@ const DataEntriesSchema = Schema({
 const DataEntries = mongoose.model("data-entries", DataEntriesSchema);
 
 // create
-
-const create = (req, res) => {
-    DataEntries.create(req).then((data) => {
-        res.json(data);
+const create = (entry) => {
+    DataEntries.create(entry).then((data) => {
+        return data;
     }).catch((err) => {
-        res.json({ message: err.message });
+        return { message: err.message };
     })
 }
 
 // View 
-
-// const view = (req, res) => {
-//     DataEntries.find().then((data) => {
-//         res.json(data);
-//     }).catch((err) => {
-//         res.json({ message: err.message });
-//     })
-// }
-
-
 const view = () => {
     DataEntries.find()
         .then((data) => {
@@ -41,28 +30,8 @@ const view = () => {
         })
 }
 
-const view = async () => {
-    let data = await DataEntries.find()
-    return data
-}
-
 
 // update
-
-// const update = (req, res) => {
-
-//     DataEntries.findOneAndUpdate(req.query, req.update).then((data) => {
-//         if (data) {
-//             console.log(data);
-//             res.json(data);
-//         }
-//         else
-//             console.log("No data found");
-//     }).catch(err => {
-//         res.json({ message: err.message });
-//     })
-// }
-
 const update = (query, update, options) => {
     DataEntries.findOneAndUpdate(query, update, options)
         .then((data) => {
@@ -78,5 +47,5 @@ const update = (query, update, options) => {
 }
 
 module.exports = {
-    view, update
+    view, update, create
 };
