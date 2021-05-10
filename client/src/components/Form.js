@@ -40,13 +40,21 @@ export default class Form extends Component {
         event.preventDefault();
         // console.log(this.state.formData);
 
-        Axios.post(this.state.url + "/entry/create", this.state.formData)
-            .then((res) => {
-                console.log(res.statusText);
-            }
-            )
+        Axios.post(this.state.url + "/entry/create", this.state.formData).then((res) => {
+            console.log(res.statusText);
+            this.setState({ message: res.data.message });
 
-        // Axios.post(this.state.url +)
+            if (res.data.status == 1) {
+                Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number }).then((res) => {
+                    console.log(res.data.message);
+                    this.setState({ message: res.data.message });
+                })
+            }
+        })
+
+        setTimeout(() => {
+            window.location.reload(1);
+        }, 1500);
 
     }
 

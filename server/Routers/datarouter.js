@@ -25,7 +25,7 @@ DataRouter.get("/view", (req, res) => {
 });
 
 DataRouter.post("/create", (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     create(req.body).then((data) => {
         res.json(data);
     }).catch(err => {

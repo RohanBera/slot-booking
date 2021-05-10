@@ -33,7 +33,7 @@ const bookSlot = async (date) => {
         );
         if (!data) { console.log("No data found"); }
     } catch (err) {
-        data = { message: err.message };
+        data = { status: 0, message: err.message };
         throw err;
     }
     return data;
@@ -52,7 +52,7 @@ const updateSlot = async (oldDate, newDate) => {
         );
         if (!data) { console.log("No data found"); }
     } catch (err) {
-        data = { message: err.message };
+        data = { status: 0, message: err.message };
         throw err;
     }
     return data;

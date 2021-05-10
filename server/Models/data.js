@@ -16,11 +16,21 @@ const DataEntries = mongoose.model("data-entries", DataEntriesSchema);
 // create
 const create = async (entry) => {
     try {
-        // console.log(entry);
-        data = DataEntries.create(entry);
+        var id = entry.roll_number;
+
+        var check = await DataEntries.find({ roll_number: id })
+
+        if (check.length === 0) {
+            data = DataEntries.create(entry);
+            data = { status: 1, message: "Success!" };
+        }
+        else {
+            // console.log("User already exists!!!");
+            data = { status: 0, message: "User already exists!" };
+        }
     }
     catch (err) {
-        data = { message: err.message };
+        data = { status: 0, message: err.message };
         throw err;
     }
     return data;

@@ -10,10 +10,9 @@ DateRouter.get("/view", (req, res) => {
     });
 })
 
-DateRouter.get("/bookSlot", (req, res) => {
-    bookSlot(req.date).then((data) => {
-        console.log(data);
-        res.json({ message: "success" });
+DateRouter.post("/bookSlot", (req, res) => {
+    bookSlot(req.body.date).then((data) => {
+        res.json({ message: "Success!" });
     }).catch(err => {
         res.json({ message: err.message });
     })
@@ -22,7 +21,7 @@ DateRouter.get("/bookSlot", (req, res) => {
 DateRouter.get("/updateSlot", (req, res) => {
     updateSlot(req.oldDate, req.newDate).then((data) => {
         console.log(data);
-        res.json({ message: "success" });
+        res.json({ message: "Success!" });
     }).catch(err => {
         res.json({ message: err.message });
     })
