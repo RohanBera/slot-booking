@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Axios from "axios";
 import dates from "../dates.json";
 
 
@@ -24,7 +25,9 @@ export default class Edit extends Component {
     /**************** Fetch dates and slots *******************/
 
     fetchDates = async () => {
+        const URL = "http://localhost:3001"
 
+        // Axios.get(URL + "")
     }
 
     componentDidMount = async () => {
@@ -39,13 +42,10 @@ export default class Edit extends Component {
                         <div className="label-title">
                             Roll number
                         </div>
-                        <div className="label-body">
-                            Format : 12MCME08
-                        </div>
                         <input
                             type="text"
                             id="id"
-                            placeholder="Id"
+                            placeholder="eg : 12MCME21"
                         />
                     </label>
 

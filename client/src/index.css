@@ -44,11 +44,17 @@
 /* form */
 
 .form {
-  width: 90%;
+  width: 50%;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 5px 5px 20px grey;
   background-color: white;
+}
+
+@media only screen and (max-width: 1000px) {
+  .form {
+    width: 90%;
+  }
 }
 
 .form input {
@@ -138,6 +144,12 @@
 .radio-toolbar input[type="radio"]:checked + label {
   background-color: #bfb;
   border-color: green;
+}
+
+.red-star {
+  font-size: 16;
+  padding: 0 3px;
+  color: red;
 }
 
 /*  view */

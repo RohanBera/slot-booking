@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/RohanBera/why-am-i-doing-this#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.7"
