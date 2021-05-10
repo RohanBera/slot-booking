@@ -30,10 +30,12 @@ export default class Form extends Component {
             <div className="form">
                 <form>
                     <label htmlFor="id">
-                        <div>
+                        <div className="label-title">
                             Roll number
                         </div>
-                        - Enter in the format 12MCME08 <br />
+                        <div className="label-body">
+                            Format : 12MCME08
+                        </div>
                         <input
                             type="text"
                             id="id"
@@ -42,32 +44,38 @@ export default class Form extends Component {
                     </label>
                     <br /><br />
 
-                    <div>Choose comforatable date</div>
+                    <div className="label-title">Choose comfortable date</div>
                     {
                         <div className="radio-toolbar">
                             {dates.dates.map(date => (
-                                <div key={date._id}>
-                                    <input type="radio" id={date.date} name="date" value={date.date} />
-                                    <label htmlFor={date.date} >{date.date + " " + date.day}</label>
+                                <div key={date._id} className="radio-button-container">
+                                    <div className="radio-button">
+                                        <input type="radio" id={date.date} name="date" value={date.date} />
+                                        <label htmlFor={date.date} >{date.date + " ( " + date.day + " )"}</label>
+                                    </div>
+                                    <div className="slots">
+                                        {date.slots + " slots available!"}
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     }
-                    <br /><br />
 
                     <label htmlFor="pdf">
-                        <div>
+                        <div className="label-title">
                             Research paper
                         </div>
-                        - You can attach your paper later. <br />
-                        - You can edit your submission later. <br />
+                        <div className="label-body">
+                            You can attach your paper later. <br />
+                            You can edit your submission later. <br />
+                        </div>
                         <input
                             type="text"
                             id="pdf"
                             placeholder="Research paper"
                         />
                     </label> <br />
-                    <button>Submit</button>
+                    <button className="submit">Submit</button>
                 </form>
             </div>
         );

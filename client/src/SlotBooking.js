@@ -8,14 +8,14 @@ import View from "./components/View";
 export default class SlotBooking extends Component {
     render() {
         return (
-            <div>
+            <div className="home">
                 <header className="header">
                     <a href="/">Pick a slot</a>
                     <a href="/edit">Edit response</a>
                     <a href="/view">View all responses</a>
                 </header>
 
-                <main>
+                <main className="main">
                     <Router>
                         <Switch>
                             <Route exact path="/" component={Form}></Route>

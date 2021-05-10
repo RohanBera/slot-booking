@@ -2,35 +2,35 @@
   "dates": [
     {
       "_id": 1,
-      "date": "1",
+      "date": "1-2-2021",
       "day": "fri",
       "slots": 2
     },
 
     {
       "_id": 2,
-      "date": "2",
+      "date": "2-2-2021",
       "day": "wed",
       "slots": 3
     },
 
     {
       "_id": 3,
-      "date": "3",
+      "date": "3-2-2021",
       "day": "fri",
       "slots": 2
     },
 
     {
       "_id": 4,
-      "date": "4",
+      "date": "4-2-2021",
       "day": "wed",
       "slots": 3
     },
 
     {
       "_id": 5,
-      "date": "5",
+      "date": "5-2-2021",
       "day": "fri",
       "slots": 2
     }
