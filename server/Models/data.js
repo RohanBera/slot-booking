@@ -7,16 +7,19 @@ const DataEntriesSchema = Schema({
     roll_number: String,
     slot_number: String,
     paper_link: String
+}, {
+    versionKey: false
 });
 
 const DataEntries = mongoose.model("data-entries", DataEntriesSchema);
 
 // create
 const create = async (entry) => {
-    try{
+    try {
+        // console.log(entry);
         data = DataEntries.create(entry);
     }
-    catch(err){
+    catch (err) {
         data = { message: err.message };
         throw err;
     }
@@ -25,10 +28,10 @@ const create = async (entry) => {
 
 // View 
 const view = async () => {
-    try{
+    try {
         data = DataEntries.find();
     }
-    catch(err){
+    catch (err) {
         data = { message: err.message };
         throw err;
     }
@@ -37,11 +40,11 @@ const view = async () => {
 
 // update
 const update = async (query, update, options) => {
-    try{
+    try {
         data = DataEntries.findOneAndUpdate(query, update, options)
-        if(!data){console.log("No data found");}
+        if (!data) { console.log("No data found"); }
     }
-    catch(err){
+    catch (err) {
         data = { message: err.message };
         throw err;
     }

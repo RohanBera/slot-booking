@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Axios from "axios";
-// import dates from "../dates.json";
 
 export default class Form extends Component {
     constructor(props) {
@@ -8,10 +7,14 @@ export default class Form extends Component {
         this.state = {
             dates: {},
             datesFetched: false,
-            user: "",
-            roll_number: "",
-            slot_number: "",
-            paper_link: ""
+            message: "",
+            url: "http://localhost:3001",
+            formData: {
+                user: "",
+                roll_number: "",
+                slot_number: "",
+                paper_link: ""
+            }
         }
     }
 
@@ -23,27 +26,41 @@ export default class Form extends Component {
         if (name === "roll_number") {
             value = value.toUpperCase();
         }
-        this.setState({
-            [name]: value,
+        this.setState((prevState) => {
+            return {
+                formData: {
+                    ...prevState.formData,
+                    [name]: value
+                }
+            }
         })
     }
 
     formSubmit = (event) => {
-        console.log(this.state);
+        event.preventDefault();
+        // console.log(this.state.formData);
+
+        Axios.post(this.state.url + "/entry/create", this.state.formData)
+            .then((res) => {
+                console.log(res.statusText);
+            }
+            )
+
+        // Axios.post(this.state.url +)
+
     }
 
     /**************** Fetch dates and slots *******************/
 
     fetchDates = async () => {
-        let URL = "http://localhost:3001";
-
-        Axios.get(URL + "/date/view").then((res) => {
-            this.setState({
-                dates: res.data,
-                datesFetched: true
-            });
-            // console.log(this.state.dates);
-        })
+        Axios.get(this.state.url + "/date/view")
+            .then((res) => {
+                this.setState({
+                    dates: res.data,
+                    datesFetched: true
+                });
+                // console.log(this.state.dates);
+            })
     }
 
     componentDidMount = async () => {
@@ -125,6 +142,7 @@ export default class Form extends Component {
                             />
                         </label> <br />
                         <input type="submit" className="submit" onClick={this.formSubmit} />
+                        <div style={{ color: "green" }}> {this.state.message} </div>
                     </form>
                     :
                     <div> Loading... </div>

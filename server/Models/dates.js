@@ -6,6 +6,8 @@ const DateSchema = Schema({
     date: String,
     day: String,
     slots: Number
+}, {
+    versionKey: false
 });
 
 const DateEntries = mongoose.model("dates", DateSchema);
