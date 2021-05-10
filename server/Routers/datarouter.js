@@ -9,7 +9,7 @@ var req1 = {
 }
 
 DataRouter.get("/update", (req, res) => {
-    update(req.query, req.update, req.options).then((data) => {
+    update(req.body.query, req.body.update, req.body.options).then((data) => {
         res.json(data);
     }).catch(err => {
         res.json({ message: err.message });
