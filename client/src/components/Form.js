@@ -44,18 +44,18 @@ export default class Form extends Component {
             console.log(res.statusText);
             this.setState({ message: res.data.message });
 
-            if (res.data.status == 1) {
+            if (res.data.status === 1) {
                 Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number }).then((res) => {
                     console.log(res.data.message);
                     this.setState({ message: res.data.message });
+
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1500);
                 })
             }
         })
-
-        setTimeout(() => {
-            window.location.reload(1);
-        }, 1500);
-
     }
 
     /**************** Fetch dates and slots *******************/
@@ -79,7 +79,7 @@ export default class Form extends Component {
         return (
             <div className="form">
                 {this.state.datesFetched ?
-                    <form>
+                    <form onSubmit={this.formSubmit} >
                         <label htmlFor="name">
                             <div className="label-title">
                                 Name <span className="red-star">*</span>
@@ -88,6 +88,7 @@ export default class Form extends Component {
                                 type="text"
                                 id="name"
                                 name="user"
+                                value={this.state.formData.user}
                                 placeholder="eg : Barry Allen"
                                 onChange={this.formHandler}
                                 required
@@ -103,6 +104,7 @@ export default class Form extends Component {
                                 type="text"
                                 id="id"
                                 name="roll_number"
+                                value={this.state.formData.roll_number}
                                 placeholder="eg : 12MCME21"
                                 onChange={this.formHandler}
                                 required
@@ -124,8 +126,9 @@ export default class Form extends Component {
                                                 value={date.date}
                                                 onChange={this.formHandler}
                                                 required
+                                                disabled={date.slots === 0 ? true : false}
                                             />
-                                            <label htmlFor={date.date} >{date.date + " ( " + date.day + " )"}</label>
+                                            <label className={date.slots === 0 ? "disabled" : ""} htmlFor={date.date} >{date.date + " ( " + date.day + " )"}</label>
                                         </div>
                                         <div className="slots">
                                             {date.slots + " slots available!"}
@@ -149,7 +152,7 @@ export default class Form extends Component {
                                 placeholder="Research paper"
                             />
                         </label> <br />
-                        <input type="submit" className="submit" onClick={this.formSubmit} />
+                        <input type="submit" className="submit" />
                         <div style={{ color: "green" }}> {this.state.message} </div>
                     </form>
                     :

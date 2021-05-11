@@ -39,7 +39,7 @@ const create = async (entry) => {
 // View 
 const view = async () => {
     try {
-        data = DataEntries.find();
+        data = await DataEntries.find();
     }
     catch (err) {
         data = { message: err.message };
@@ -48,10 +48,28 @@ const view = async () => {
     return data;
 }
 
-// update
-const update = async (query, update, options) => {
+//return date of user 
+const userDate = async (entry) => {
     try {
-        data = DataEntries.findOneAndUpdate(query, update, options)
+        var id = entry.id;
+        check = await DataEntries.find({ roll_number: id })
+        console.log(check);
+        data = check;
+    } catch (err) {
+        data = { message: err.message };
+        throw err;
+    }
+    return data;
+}
+
+// update
+const update = async (id, update) => {
+    // 'update' var is an obj
+    try {
+        data = await DataEntries.updateOne(
+            { "roll_number": id },
+            { $set: update }
+        );
         if (!data) { console.log("No data found"); }
     }
     catch (err) {
@@ -62,5 +80,5 @@ const update = async (query, update, options) => {
 }
 
 module.exports = {
-    view, update, create
+    view, update, create, userDate
 };

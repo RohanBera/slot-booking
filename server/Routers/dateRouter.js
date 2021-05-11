@@ -18,8 +18,8 @@ DateRouter.post("/bookSlot", (req, res) => {
     })
 })
 
-DateRouter.get("/updateSlot", (req, res) => {
-    updateSlot(req.oldDate, req.newDate).then((data) => {
+DateRouter.post("/updateSlot", (req, res) => {
+    updateSlot(req.body.oldDate, req.body.newDate).then((data) => {
         console.log(data);
         res.json({ message: "Success!" });
     }).catch(err => {

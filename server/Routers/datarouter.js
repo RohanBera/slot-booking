@@ -1,5 +1,5 @@
 const Router = require('express').Router;
-const { create, update, view } = require('../Models/data');
+const { create, update, view, userDate } = require('../Models/data');
 const DataRouter = Router();
 
 var req1 = {
@@ -8,8 +8,8 @@ var req1 = {
     options: { returnNewDocument: true }
 }
 
-DataRouter.get("/update", (req, res) => {
-    update(req.body.query, req.body.update, req.body.options).then((data) => {
+DataRouter.post("/update", (req, res) => {
+    update(req.body.id, req.body.update).then((data) => {
         res.json(data);
     }).catch(err => {
         res.json({ message: err.message });
@@ -18,6 +18,14 @@ DataRouter.get("/update", (req, res) => {
 
 DataRouter.get("/view", (req, res) => {
     view().then((data) => {
+        res.json(data);
+    }).catch(err => {
+        res.json({ message: err.message });
+    });
+});
+
+DataRouter.post("/userDate", (req, res) => {
+    userDate(req.body).then((data) => {
         res.json(data);
     }).catch(err => {
         res.json({ message: err.message });
