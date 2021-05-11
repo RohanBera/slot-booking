@@ -11,11 +11,12 @@ export default class Edit extends Component {
             updateDate: false,
             updatePaper: false,
             datesFetched: false,
-            message: "",
             dates: {},
             roll_number: "",
             slot_number: "",
-            paper_link: ""
+            paper_link: "",
+            slotMessage: "",
+            paperMessage: "",
         }
     }
 
@@ -44,6 +45,7 @@ export default class Edit extends Component {
         event.preventDefault();
         // console.log(this.state.formData);
 
+        // update slot 
         if (this.state.updateDate) {
             console.log(this.state.slot_number);
 
@@ -52,25 +54,25 @@ export default class Edit extends Component {
                     // console.log(res.data);
 
                     if (res.data.length === 0) {
-                        this.setState({ message: "No user found! Please register first!" });
+                        this.setState({ slotMessage: "No user found! Please register first!" });
                     }
                     else {
                         if (this.state.slot_number === res.data[0].slot_number) {
-                            this.setState({ message: "U already have this slot!" });
+                            this.setState({ slotMessage: "U already have this slot!" });
                         }
                         else {
 
-                            // update slots
+                            // update slots db
                             var query = {
                                 oldDate: res.data[0].slot_number,
                                 newDate: this.state.slot_number,
                             }
 
                             Axios.post(this.state.url + "/date/updateSlot", query).then((res) => {
-                                this.setState({ message: res.data.message });
+                                this.setState({ slotMessage: res.data.message });
                             })
 
-                            // update user slot
+                            // update user db
                             var updateQuery = {
                                 id: this.state.roll_number,
                                 update: {
@@ -79,38 +81,58 @@ export default class Edit extends Component {
                             };
 
                             Axios.post(this.state.url + "/entry/update", updateQuery).then((res) => {
-                                this.setState({ message: res.data.message });
+                                this.setState({ slotMessage: res.data.message });
                             });
+
+
+                            if (!this.state.updatePaper) {
+                                setTimeout(() => {
+                                    window.location.reload(1);
+                                }, 1500);
+                            }
                         }
 
                     }
                 })
             } catch (err) {
-                this.setState({ message: err.message });
+                this.setState({ slotMessage: err.message });
             }
 
         }
 
+
+        // update paper
         if (this.state.updatePaper) {
             console.log(this.state.paper_link);
+
+
+            try {
+                Axios.post(this.state.url + "/entry/userDate", { id: this.state.roll_number }).then((res) => {
+                    // console.log(res.data);
+                    if (res.data.length === 0) {
+                        this.setState({ paperMessage: "No user found! Please register first!" });
+                    }
+                    else {
+                        var updateQuery = {
+                            id: this.state.roll_number,
+                            update: {
+                                paper_link: this.state.paper_link,
+                            }
+                        };
+
+                        Axios.post(this.state.url + "/entry/update", updateQuery).then((res) => {
+                            this.setState({ paperMessage: res.data.message });
+                        });
+
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 1500);
+                    }
+                });
+            } catch (err) {
+                this.setState({ paperMessage: err.message });
+            }
         }
-
-        // Axios.post(this.state.url + "/entry/create", this.state.formData).then((res) => {
-        //     console.log(res.statusText);
-        //     this.setState({ message: res.data.message });
-
-        //     if (res.data.status == 1) {
-        //         Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number }).then((res) => {
-        //             console.log(res.data.message);
-        //             this.setState({ message: res.data.message });
-        //         })
-        //     }
-        // })
-
-        // setTimeout(() => {
-        //     window.location.reload(1);
-        // }, 1500);
-
     }
     /**************** Fetch dates and slots *******************/
 
@@ -136,8 +158,8 @@ export default class Edit extends Component {
                     <form onSubmit={this.formSubmit}>
                         <label htmlFor="id">
                             <div className="label-title">
-                                Roll number
-                        </div>
+                                Roll number <span className="red-star">*</span>
+                            </div>
                             <input
                                 style={{ textTransform: "uppercase" }}
                                 type="text"
@@ -155,7 +177,7 @@ export default class Edit extends Component {
                         {this.state.updateDate
                             ?
                             <div>
-                                <div className="label-title">Update date</div>
+                                <div className="label-title">Update date <span className="red-star">*</span></div>
                                 <div className="radio-toolbar">
                                     {this.state.dates.map(date => (
                                         <div key={date._id} className="radio-button-container">
@@ -183,6 +205,8 @@ export default class Edit extends Component {
                                     className="submit cancel"
                                     onClick={this.toggleUpdate}
                                 > Cancel</button>
+                                <div style={{ color: "green" }}> {this.state.slotMessage} </div>
+
                             </div>
                             :
                             <>
@@ -202,7 +226,8 @@ export default class Edit extends Component {
                             <div>
                                 <div className="label-title">
                                     Research paper
-                            </div>
+                                    <span className="red-star">*</span>
+                                </div>
                                 <div className="label-body">
                                     You can attach your paper later. <br />
                                 You can edit your submission later. <br />
@@ -222,7 +247,10 @@ export default class Edit extends Component {
                                     name="updatePaper"
                                     onClick={this.toggleUpdate}
                                 > Cancel</button>
+                                <div style={{ color: "green" }}> {this.state.paperMessage} </div>
+
                             </div>
+
                             :
                             <>
                                 <button
@@ -236,7 +264,6 @@ export default class Edit extends Component {
                         <hr />
 
                         <input type="submit" className="submit" value="Submit" />
-                        <div style={{ color: "green" }}> {this.state.message} </div>
                     </form>
                     :
                     <div>Loading...</div>

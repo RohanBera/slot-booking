@@ -2,11 +2,6 @@ const Router = require('express').Router;
 const { create, update, view, userDate } = require('../Models/data');
 const DataRouter = Router();
 
-var req1 = {
-    query: { "user": "Bera" },
-    update: { "$set": { "user": "Rohan", "paper_link": "shoeihwiuer" } },
-    options: { returnNewDocument: true }
-}
 
 DataRouter.post("/update", (req, res) => {
     update(req.body.id, req.body.update).then((data) => {

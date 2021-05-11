@@ -13,8 +13,8 @@ export default class Form extends Component {
                 user: "",
                 roll_number: "",
                 slot_number: "",
-                paper_link: ""
-            }
+            },
+            paper_link: null
         }
     }
 
@@ -36,9 +36,15 @@ export default class Form extends Component {
         })
     }
 
+    fileHandler = (event) => {
+        this.setState({
+            paper_link: event.target.files[0],
+        })
+    }
+
     formSubmit = (event) => {
         event.preventDefault();
-        // console.log(this.state.formData);
+        console.log(this.state.formData);
 
         Axios.post(this.state.url + "/entry/create", this.state.formData).then((res) => {
             console.log(res.statusText);
@@ -50,12 +56,21 @@ export default class Form extends Component {
                     this.setState({ message: res.data.message });
 
 
-                    setTimeout(() => {
-                        window.location.reload(1);
-                    }, 1500);
+                    // setTimeout(() => {
+                    //     window.location.reload(1);
+                    // }, 1500);
                 })
             }
         })
+
+        if (this.state.paper_link != null) {
+            const formData = new FormData()
+            formData.append('profileImg', this.state.profileImg)
+            Axios.post(this.state.url + "/entry/paper", formData, {
+            }).then(res => {
+                console.log(res)
+            })
+        }
     }
 
     /**************** Fetch dates and slots *******************/
@@ -147,9 +162,10 @@ export default class Form extends Component {
                             You can edit your submission later. <br />
                             </div>
                             <input
-                                type="text"
+                                type="file"
                                 id="pdf"
                                 placeholder="Research paper"
+                                onChange={this.fileHandler}
                             />
                         </label> <br />
                         <input type="submit" className="submit" />
