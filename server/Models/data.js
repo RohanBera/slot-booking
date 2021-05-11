@@ -6,9 +6,7 @@ const DataEntriesSchema = Schema({
     user: String,
     roll_number: String,
     slot_number: String,
-    paper_link: {
-        type: String
-    }
+    paper_link: String
 }, {
     versionKey: false
 });

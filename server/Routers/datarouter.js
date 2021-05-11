@@ -1,7 +1,11 @@
 const Router = require('express').Router;
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+let path = require('path');
 const { create, update, view, userDate } = require('../Models/data');
 const DataRouter = Router();
 
+// functions
 
 DataRouter.post("/update", (req, res) => {
     update(req.body.id, req.body.update).then((data) => {
@@ -36,7 +40,42 @@ DataRouter.post("/create", (req, res) => {
     });
 });
 
+// file upload
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'papers');
+    },
+    filename: function (req, file, cb) {
+        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = ['application/pdf'];
+    if (allowedFileTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
+let upload = multer({ storage, fileFilter });
+
+DataRouter.route('/paper').post(upload.single('paper_link'), (req, res) => {
+    const paper = req.file.filename;
+
+    const newUserData = {
+        paper
+    }
+
+    const newUser = new User(newUserData);
+
+    newUser.save()
+        .then(() => res.json('Paper Added'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 module.exports = {
     DataRouter
 };
-

@@ -65,11 +65,13 @@ export default class Form extends Component {
 
         if (this.state.paper_link != null) {
             const formData = new FormData()
-            formData.append('profileImg', this.state.profileImg)
+            formData.append('paper_link', this.state.paper_link);
             Axios.post(this.state.url + "/entry/paper", formData, {
             }).then(res => {
                 console.log(res)
-            })
+            }).catch(err => {
+                console.log(err);
+            });
         }
     }
 
@@ -164,6 +166,7 @@ export default class Form extends Component {
                             <input
                                 type="file"
                                 id="pdf"
+                                accept="application/pdf"
                                 placeholder="Research paper"
                                 onChange={this.fileHandler}
                             />
