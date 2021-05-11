@@ -96,7 +96,7 @@ export default class Form extends Component {
         return (
             <div className="form">
                 {this.state.datesFetched ?
-                    <form onSubmit={this.formSubmit} >
+                    <form method="POST" onSubmit={this.formSubmit} enctype="multipart/form-data" >
                         <label htmlFor="name">
                             <div className="label-title">
                                 Name <span className="red-star">*</span>

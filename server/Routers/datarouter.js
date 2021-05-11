@@ -60,21 +60,38 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-let upload = multer({ storage, fileFilter });
 
-DataRouter.route('/paper').post(upload.single('paper_link'), (req, res) => {
-    const paper = req.file.filename;
+DataRouter.post('/paper', (req, res) => {
+    let upload = multer({ storage: storage, fileFilter: fileFilter }).single('paper_link');
 
-    const newUserData = {
-        paper
-    }
+    upload(req, res, (err) => {
+        if (!req.file) {
+            return res.send('Please select an file to upload');
+        }
+        else if (err instanceof multer.MulterError) {
+            return res.json({message: err.message});
+        }
+        else if (err) {
+            return res.json({ message: err.message });
+        }
+        res.json('Paper Added');
+    });
 
-    const newUser = new User(newUserData);
-
-    newUser.save()
-        .then(() => res.json('Paper Added'))
-        .catch(err => res.status(400).json('Error: ' + err));
 });
+
+// DataRouter.route('/paper').post(upload.single('paper_link'), (req, res) => {
+//     const paper = req.file.filename;
+
+//     const newUserData = {
+//         paper
+//     }
+
+//     const newUser = new User(newUserData);
+
+//     newUser.save()
+//         .then(() => res.json('Paper Added'))
+//         .catch(err => res.status(400).json('Error: ' + err));
+// });
 
 module.exports = {
     DataRouter
