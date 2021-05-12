@@ -13,8 +13,8 @@ export default class Form extends Component {
                 user: "",
                 roll_number: "",
                 slot_number: "",
-            },
-            paper_link: null
+                paper_link: null
+            }
         }
     }
 
@@ -37,41 +37,66 @@ export default class Form extends Component {
     }
 
     fileHandler = (event) => {
-        this.setState({
-            paper_link: event.target.files[0],
+        this.setState(prevState => {
+            return {
+                formData: {
+                    ...prevState.formData,
+                    paper_link: event.target.files[0],
+                }
+            }
         })
     }
 
     formSubmit = (event) => {
         event.preventDefault();
         console.log(this.state.formData);
+        console.log(this.state.formData.paper_link);
+        const head = {
+            'Content-Type': 'multipart/form-data'
+        }
+        if(this.state.formData.paper_link === null){
+            Axios.post(this.state.url + "/entry/create", this.state.formData)
+            .then((res) => {
+                console.log(res.statusText);
+                this.setState({ message: res.data.message });
 
-        Axios.post(this.state.url + "/entry/create", this.state.formData).then((res) => {
-            console.log(res.statusText);
-            this.setState({ message: res.data.message });
+                if (res.data.status === 1) {
+                    Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
+                    .then((res) => {
+                        console.log(res.data.message);
+                        this.setState({ message: res.data.message });
 
-            if (res.data.status === 1) {
-                Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number }).then((res) => {
-                    console.log(res.data.message);
-                    this.setState({ message: res.data.message });
-
-
-                    // setTimeout(() => {
-                    //     window.location.reload(1);
-                    // }, 1500);
-                })
-            }
-        })
-
-        if (this.state.paper_link != null) {
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 1500);
+                    })
+                }
+            })
+        }
+        else {
             const formData = new FormData()
-            formData.append('paper_link', this.state.paper_link);
-            Axios.post(this.state.url + "/entry/paper", formData, {
-            }).then(res => {
-                console.log(res)
-            }).catch(err => {
-                console.log(err);
-            });
+            formData.append('user', this.state.formData.user);
+            formData.append('roll_number', this.state.formData.roll_number);
+            formData.append('slot_number', this.state.formData.slot_number);
+            formData.append('paper_link', this.state.formData.paper_link);
+
+            Axios.post(this.state.url + "/entry/paper", formData,{ headers: head })
+            .then((res) => {
+                console.log(res.statusText);
+                this.setState({ message: res.data.message });
+
+                if (res.data.status === 1) {
+                    Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
+                    .then((res) => {
+                        console.log(res.data.message);
+                        this.setState({ message: res.data.message });
+
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 1500);
+                    })
+                }
+            })
         }
     }
 
@@ -84,7 +109,6 @@ export default class Form extends Component {
                     dates: res.data,
                     datesFetched: true
                 });
-                // console.log(this.state.dates);
             })
     }
 
@@ -96,7 +120,7 @@ export default class Form extends Component {
         return (
             <div className="form">
                 {this.state.datesFetched ?
-                    <form method="POST" onSubmit={this.formSubmit} enctype="multipart/form-data" >
+                    <form onSubmit={this.formSubmit} encType="multipart/form-data" >
                         <label htmlFor="name">
                             <div className="label-title">
                                 Name <span className="red-star">*</span>
@@ -165,8 +189,9 @@ export default class Form extends Component {
                             </div>
                             <input
                                 type="file"
+                                name="paper_link"
                                 id="pdf"
-                                accept="application/pdf"
+                                accept=".pdf"
                                 placeholder="Research paper"
                                 onChange={this.fileHandler}
                             />

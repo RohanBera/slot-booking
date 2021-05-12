@@ -6,32 +6,34 @@ const DataEntriesSchema = Schema({
     user: String,
     roll_number: String,
     slot_number: String,
-    paper_link: String
+    paper_link: String,
+    _id : String
 }, {
     versionKey: false
 });
 
 const DataEntries = mongoose.model("data-entries", DataEntriesSchema);
 
+//chekc if new user 
+// const ifNewUserr = () => {
+
+
 // create
 const create = async (entry) => {
     try {
-        var id = entry.roll_number;
+        entry._id = entry.roll_number;
 
-        var check = await DataEntries.find({ roll_number: id })
-
-        if (check.length === 0) {
-            data = DataEntries.create(entry);
-            data = { status: 1, message: "Success!" };
-        }
-        else {
-            // console.log("User already exists!!!");
-            data = { status: 0, message: "User already exists!" };
-        }
+        await DataEntries.create(entry);
+        data = { status: 1, message: "Success!" };
     }
     catch (err) {
-        data = { status: 0, message: err.message };
-        throw err;
+        data = { status: 0 };
+        if (err.code == 11000) {
+            data.message = "User Already Exists";
+        }
+        else {
+        data.message = err.message;
+        }
     }
     return data;
 }
@@ -79,6 +81,11 @@ const update = async (id, update) => {
     return data;
 }
 
+const paperAdd = async (newDataEntry) => {
+    let dataEntry = new DataEntries(newDataEntry);
+    dataEntry.save();
+}
+
 module.exports = {
-    view, update, create, userDate
+    view, update, create, userDate, paperAdd
 };

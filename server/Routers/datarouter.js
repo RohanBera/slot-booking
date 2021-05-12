@@ -1,11 +1,7 @@
 const Router = require('express').Router;
 const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
-let path = require('path');
-const { create, update, view, userDate } = require('../Models/data');
+const { create, update, view, userDate, paperAdd } = require('../Models/data');
 const DataRouter = Router();
-
-// functions
 
 DataRouter.post("/update", (req, res) => {
     update(req.body.id, req.body.update).then((data) => {
@@ -32,7 +28,6 @@ DataRouter.post("/userDate", (req, res) => {
 });
 
 DataRouter.post("/create", (req, res) => {
-    // console.log(req.body);
     create(req.body).then((data) => {
         res.json(data);
     }).catch(err => {
@@ -40,58 +35,24 @@ DataRouter.post("/create", (req, res) => {
     });
 });
 
-// file upload
+let upload = multer({ dest: "papers" });
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'papers');
-    },
-    filename: function (req, file, cb) {
-        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+DataRouter.post('/paper',upload.single('paper_link'), (req, res) => {
+    const user = req.body.user;
+    const roll_number = req.body.roll_number;
+    const slot_number = req.body.slot_number;
+    const paper_link = req.file.filename;
+    const newDataEntry = {
+        user,
+        roll_number,
+        slot_number,
+        paper_link,
+        _id: roll_number
     }
+    paperAdd(newDataEntry)
+           .then(() => res.json({ status: 1, message : 'Paper Added'}))
+           .catch(err => res.json({ status: 0, message : 'User Already Exists'}));
 });
-
-const fileFilter = (req, file, cb) => {
-    const allowedFileTypes = ['application/pdf'];
-    if (allowedFileTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-}
-
-
-DataRouter.post('/paper', (req, res) => {
-    let upload = multer({ storage: storage, fileFilter: fileFilter }).single('paper_link');
-
-    upload(req, res, (err) => {
-        if (!req.file) {
-            return res.send('Please select an file to upload');
-        }
-        else if (err instanceof multer.MulterError) {
-            return res.json({message: err.message});
-        }
-        else if (err) {
-            return res.json({ message: err.message });
-        }
-        res.json('Paper Added');
-    });
-
-});
-
-// DataRouter.route('/paper').post(upload.single('paper_link'), (req, res) => {
-//     const paper = req.file.filename;
-
-//     const newUserData = {
-//         paper
-//     }
-
-//     const newUser = new User(newUserData);
-
-//     newUser.save()
-//         .then(() => res.json('Paper Added'))
-//         .catch(err => res.status(400).json('Error: ' + err));
-// });
 
 module.exports = {
     DataRouter
