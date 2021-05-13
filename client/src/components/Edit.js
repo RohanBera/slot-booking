@@ -43,7 +43,6 @@ export default class Edit extends Component {
 
     formSubmit = (event) => {
         event.preventDefault();
-        // console.log(this.state.formData);
 
         // update slot 
         if (this.state.updateDate) {
@@ -113,16 +112,30 @@ export default class Edit extends Component {
                         this.setState({ paperMessage: "No user found! Please register first!" });
                     }
                     else {
-                        var updateQuery = {
-                            id: this.state.roll_number,
-                            update: {
-                                paper_link: this.state.paper_link,
-                            }
-                        };
+                        const head = {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                        const formData = new FormData()
+                        formData.append('roll_number', this.state.roll_number);
+                        formData.append('paper_link', this.state.paper_link);
 
-                        Axios.post(this.state.url + "/entry/update", updateQuery).then((res) => {
-                            this.setState({ paperMessage: res.data.message });
-                        });
+                        Axios.post(this.state.url + "/entry/paper-update", formData, { headers: head })
+                            .then((res) => {
+                                console.log(res.statusText);
+                                this.setState({ message: res.data.message });
+                            });
+
+
+                        // var updateQuery = {
+                        //     id: this.state.roll_number,
+                        //     update: {
+                        //         paper_link: this.state.paper_link,
+                        //     }
+                        // };
+
+                        // Axios.post(this.state.url + "/entry/", updateQuery).then((res) => {
+                        //     this.setState({ paperMessage: res.data.message });
+                        // });
 
                         setTimeout(() => {
                             window.location.reload(1);
@@ -155,7 +168,7 @@ export default class Edit extends Component {
         return (
             <div className="form">
                 {this.state.datesFetched ?
-                    <form onSubmit={this.formSubmit}>
+                    <form onSubmit={this.formSubmit} encType="multipart/form-data">
                         <label htmlFor="id">
                             <div className="label-title">
                                 Roll number <span className="red-star">*</span>
@@ -233,13 +246,15 @@ export default class Edit extends Component {
                                 You can edit your submission later. <br />
                                 </div>
                                 <input
-                                    type="text"
-                                    id="pdf"
+                                    type="file"
                                     name="paper_link"
-                                    onChange={this.formHandler}
+                                    id="pdf"
+                                    accept=".pdf"
                                     placeholder="Research paper"
+                                    onChange={this.fileHandler}
                                     required
                                 />
+
                                 <br />
                                 <button
                                     type="button cancel"

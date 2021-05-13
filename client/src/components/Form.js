@@ -54,24 +54,24 @@ export default class Form extends Component {
         const head = {
             'Content-Type': 'multipart/form-data'
         }
-        if(this.state.formData.paper_link === null){
+        if (this.state.formData.paper_link === null) {
             Axios.post(this.state.url + "/entry/create", this.state.formData)
-            .then((res) => {
-                console.log(res.statusText);
-                this.setState({ message: res.data.message });
+                .then((res) => {
+                    console.log(res.statusText);
+                    this.setState({ message: res.data.message });
 
-                if (res.data.status === 1) {
-                    Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
-                    .then((res) => {
-                        console.log(res.data.message);
-                        this.setState({ message: res.data.message });
+                    if (res.data.status === 1) {
+                        Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
+                            .then((res) => {
+                                console.log(res.data.message);
+                                this.setState({ message: res.data.message });
 
-                        setTimeout(() => {
-                            window.location.reload(1);
-                        }, 1500);
-                    })
-                }
-            })
+                                setTimeout(() => {
+                                    window.location.reload(1);
+                                }, 1500);
+                            })
+                    }
+                })
         }
         else {
             const formData = new FormData()
@@ -80,23 +80,23 @@ export default class Form extends Component {
             formData.append('slot_number', this.state.formData.slot_number);
             formData.append('paper_link', this.state.formData.paper_link);
 
-            Axios.post(this.state.url + "/entry/paper", formData,{ headers: head })
-            .then((res) => {
-                console.log(res.statusText);
-                this.setState({ message: res.data.message });
+            Axios.post(this.state.url + "/entry/paper-upload", formData, { headers: head })
+                .then((res) => {
+                    console.log(res.statusText);
+                    this.setState({ message: res.data.message });
 
-                if (res.data.status === 1) {
-                    Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
-                    .then((res) => {
-                        console.log(res.data.message);
-                        this.setState({ message: res.data.message });
+                    if (res.data.status === 1) {
+                        Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
+                            .then((res) => {
+                                console.log(res.data.message);
+                                this.setState({ message: res.data.message });
 
-                        setTimeout(() => {
-                            window.location.reload(1);
-                        }, 1500);
-                    })
-                }
-            })
+                                setTimeout(() => {
+                                    window.location.reload(1);
+                                }, 1500);
+                            })
+                    }
+                })
         }
     }
 

@@ -31,13 +31,14 @@ DataRouter.post("/create", (req, res) => {
     create(req.body).then((data) => {
         res.json(data);
     }).catch(err => {
-        res.json({ message: err.message });
+        res.json({ status: 0, message: err.message });
     });
 });
 
 let upload = multer({ dest: "papers" });
 
-DataRouter.post('/paper',upload.single('paper_link'), (req, res) => {
+//upload paper
+DataRouter.post('/paper-upload', upload.single('paper_link'), (req, res) => {
     const user = req.body.user;
     const roll_number = req.body.roll_number;
     const slot_number = req.body.slot_number;
@@ -49,9 +50,39 @@ DataRouter.post('/paper',upload.single('paper_link'), (req, res) => {
         paper_link,
         _id: roll_number
     }
+
+    create(newDataEntry)
+        // paperAdd(newDataEntry)
+        .then((data) => {
+            console.log(data);
+            res.json({ ...data });
+
+        })
+        .catch(err => {
+            console.log(data);
+            res.json({ status: 0, message: err.message })
+        });
+});
+
+// update paper 
+DataRouter.post('/paper-update', upload.single('paper_link'), (req, res) => {
+    const roll_number = req.body.roll_number;
+    const paper_link = req.file.filename;
+    const newDataEntry = {
+        roll_number,
+        paper_link,
+        _id: roll_number
+    }
     paperAdd(newDataEntry)
-           .then(() => res.json({ status: 1, message : 'Paper Added'}))
-           .catch(err => res.json({ status: 0, message : 'User Already Exists'}));
+        .then((data) => {
+            console.log(data);
+            res.json({ status: 1, message: 'Paper Added' })
+
+        })
+        .catch(err => {
+            console.log(data);
+            res.json({ status: 0, message: 'User Already Exists' })
+        });
 });
 
 module.exports = {
