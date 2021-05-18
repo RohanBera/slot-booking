@@ -14,7 +14,7 @@ export default class Edit extends Component {
             dates: {},
             roll_number: "",
             slot_number: "",
-            paper_link: "",
+            paper_link: null,
             slotMessage: "",
             paperMessage: "",
         }
@@ -36,8 +36,15 @@ export default class Edit extends Component {
         if (name === "roll_number") {
             value = value.toUpperCase();
         }
+        console.log(name,value);
         this.setState({
             [name]: value
+        })
+    }
+
+    fileHandler = (event) => {
+        this.setState({
+                paper_link: event.target.files[0]
         })
     }
 
@@ -118,11 +125,15 @@ export default class Edit extends Component {
                         const formData = new FormData()
                         formData.append('roll_number', this.state.roll_number);
                         formData.append('paper_link', this.state.paper_link);
-
+                        for(var pair of formData.entries()) {
+                            console.log(pair[0]+ ', '+ pair[1]);
+                         }                         
                         Axios.post(this.state.url + "/entry/paper-update", formData, { headers: head })
                             .then((res) => {
                                 console.log(res.statusText);
                                 this.setState({ message: res.data.message });
+                            }).catch(err => {
+                                console.error(err.message);
                             });
 
 
