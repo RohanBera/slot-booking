@@ -7,7 +7,7 @@ const DataEntriesSchema = Schema({
     roll_number: String,
     slot_number: String,
     paper_link: String,
-    _id : String
+    _id: String
 }, {
     versionKey: false
 });
@@ -32,7 +32,7 @@ const create = async (entry) => {
             data.message = "User Already Exists";
         }
         else {
-        data.message = err.message;
+            data.message = err.message;
         }
     }
     return data;
@@ -83,9 +83,24 @@ const update = async (id, update) => {
 
 const paperAdd = async (newDataEntry) => {
     let dataEntry = new DataEntries(newDataEntry);
-    dataEntry.save();
+    await dataEntry.save();
+}
+
+const paperUpdate = async (newDataEntry) => {
+    try {
+        console.log(newDataEntry);
+        data = await DataEntries.updateOne(
+            { roll_number: newDataEntry.roll_number },
+            { $set: { paper_link: newDataEntry.paper_link } },
+        );
+        if (!data) { console.log("No data found"); }
+    } catch (err) {
+        data = { status: 0, message: err.message };
+        throw err;
+    }
+    return data;
 }
 
 module.exports = {
-    view, update, create, userDate, paperAdd
+    view, update, create, userDate, paperAdd, paperUpdate
 };

@@ -1,45 +1,70 @@
 import React, { Component } from "react";
+import Axios from "axios";
 
 export default class View extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            url: "http://localhost:3001",
+            studentsData: {},
+            fetchedStudentsData: false,
+        }
+    }
+
+    /**************** Fetch dates and slots *******************/
+
+    fetchStudentDetails = () => {
+        Axios.get(this.state.url + "/entry/view")
+            .then((res) => {
+                this.setState({
+                    studentsData: res.data,
+                    fetchedStudentsData: true
+                });
+                console.log(this.state.studentsData);
+            })
+    }
+
+    componentDidMount = () => {
+        this.fetchStudentDetails();
+    }
+
+
     render() {
         return (
-            <table className="view">
-                <tr>
-                    <th>Name</th>
-                    <th>Roll number</th>
-                    <th>Selected research paper</th>
-                </tr>
-                <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
-                    <td>Germany</td>
-                </tr>
-                <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>Francisco Chang</td>
-                    <td>Mexico</td>
-                </tr>
-                <tr>
-                    <td>Ernst Handel</td>
-                    <td>Roland Mendel</td>
-                    <td>Austria</td>
-                </tr>
-                <tr>
-                    <td>Island Trading</td>
-                    <td>Helen Bennett</td>
-                    <td>UK</td>
-                </tr>
-                <tr>
-                    <td>Laughing Bacchus Winecellars</td>
-                    <td>Yoshi Tannamuri</td>
-                    <td>Canada</td>
-                </tr>
-                <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>Giovanni Rovelli</td>
-                    <td>Italy</td>
-                </tr>
-            </table>
+            <>
+                {!this.state.fetchedStudentsData
+                    ?
+                    <div>Loading ... </div>
+                    :
+                    <table className="view">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Roll number</th>
+                                <th>Booked slot</th>
+                                <th>Selected research paper</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {Object.keys(this.state.studentsData).map((keyName, i) => {
+                                let data = this.state.studentsData[keyName];
+
+                                return (
+                                    <tr key={i}>
+                                        <td>{data.user}</td>
+                                        <td>{data.roll_number}</td>
+                                        <td>{data.slot_number}</td>
+                                        <td><a href="#">{data.paper_link}</a></td>
+                                    </tr>
+                                )
+                            })
+                            }
+
+                        </tbody>
+                    </table>
+                }
+            </>
 
         );
     }

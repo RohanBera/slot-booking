@@ -83,12 +83,12 @@ export default class Edit extends Component {
                                 this.setState({ slotMessage: res.data.message });
                             });
 
-
-                            if (!this.state.updatePaper) {
-                                setTimeout(() => {
-                                    window.location.reload(1);
-                                }, 1500);
-                            }
+                            // reload
+                            // if (!this.state.updatePaper) {
+                            //     setTimeout(() => {
+                            //         window.location.reload(1);
+                            //     }, 1500);
+                            // }
                         }
 
                     }
@@ -137,9 +137,11 @@ export default class Edit extends Component {
                         //     this.setState({ paperMessage: res.data.message });
                         // });
 
-                        setTimeout(() => {
-                            window.location.reload(1);
-                        }, 1500);
+
+                        // reload
+                        // setTimeout(() => {
+                        //     window.location.reload(1);
+                        // }, 1500);
                     }
                 });
             } catch (err) {
@@ -156,7 +158,6 @@ export default class Edit extends Component {
                     dates: res.data,
                     datesFetched: true
                 });
-                // console.log(this.state.dates);
             })
     }
 

@@ -1,6 +1,6 @@
 const Router = require('express').Router;
 const multer = require('multer');
-const { create, update, view, userDate, paperAdd } = require('../Models/data');
+const { create, update, view, userDate, paperAdd, paperUpdate } = require('../Models/data');
 const DataRouter = Router();
 
 DataRouter.post("/update", (req, res) => {
@@ -73,7 +73,8 @@ DataRouter.post('/paper-update', upload.single('paper_link'), (req, res) => {
         paper_link,
         _id: roll_number
     }
-    paperAdd(newDataEntry)
+    // paperAdd(newDataEntry)
+    paperUpdate(newDataEntry)
         .then((data) => {
             console.log(data);
             res.json({ status: 1, message: 'Paper Added' })
