@@ -49,21 +49,17 @@ export default class Form extends Component {
 
     formSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.formData);
-        console.log(this.state.formData.paper_link);
         const head = {
             'Content-Type': 'multipart/form-data'
         }
-        if (this.state.formData.paper_link === null) {
+        if (this.state.formData.paper_link === null || typeof this.state.formData.paper_link === 'undefined') {
             Axios.post(this.state.url + "/entry/create", this.state.formData)
                 .then((res) => {
-                    console.log(res.statusText);
                     this.setState({ message: res.data.message });
 
                     if (res.data.status === 1) {
                         Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
                             .then((res) => {
-                                console.log(res.data.message);
                                 this.setState({ message: res.data.message });
 
                                 setTimeout(() => {
@@ -82,13 +78,11 @@ export default class Form extends Component {
 
             Axios.post(this.state.url + "/entry/paper-upload", formData, { headers: head })
                 .then((res) => {
-                    console.log(res.statusText);
                     this.setState({ message: res.data.message });
 
                     if (res.data.status === 1) {
                         Axios.post(this.state.url + "/date/bookSlot", { date: this.state.formData.slot_number })
                             .then((res) => {
-                                console.log(res.data.message);
                                 this.setState({ message: res.data.message });
 
                                 setTimeout(() => {
