@@ -14,10 +14,6 @@ const DataEntriesSchema = Schema({
 
 const DataEntries = mongoose.model("data-entries", DataEntriesSchema);
 
-//chekc if new user 
-// const ifNewUserr = () => {
-
-
 // create
 const create = async (entry) => {
     try {
@@ -55,7 +51,6 @@ const userDate = async (entry) => {
     try {
         var id = entry.id;
         check = await DataEntries.find({ roll_number: id })
-        console.log(check);
         data = check;
     } catch (err) {
         data = { message: err.message };
@@ -81,14 +76,8 @@ const update = async (id, update) => {
     return data;
 }
 
-const paperAdd = async (newDataEntry) => {
-    let dataEntry = new DataEntries(newDataEntry);
-    await dataEntry.save();
-}
-
 const paperUpdate = async (newDataEntry) => {
     try {
-        console.log(newDataEntry);
         data = await DataEntries.updateOne(
             { roll_number: newDataEntry.roll_number },
             { $set: { paper_link: newDataEntry.paper_link } },
@@ -102,5 +91,5 @@ const paperUpdate = async (newDataEntry) => {
 }
 
 module.exports = {
-    view, update, create, userDate, paperAdd, paperUpdate
+    view, update, create, userDate, paperUpdate
 };

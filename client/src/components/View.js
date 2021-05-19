@@ -20,7 +20,6 @@ export default class View extends Component {
                     studentsData: res.data,
                     fetchedStudentsData: true
                 });
-                console.log(this.state.studentsData);
             })
     }
 
@@ -55,7 +54,14 @@ export default class View extends Component {
                                         <td>{data.user}</td>
                                         <td>{data.roll_number}</td>
                                         <td>{data.slot_number}</td>
-                                        <td><a href={`${this.state.url}/entry/pdf/${data.paper_link}`}>View Paper</a></td>
+                                        <td>
+                                            {data.paper_link !== null
+                                                ?
+                                                <a href={`${this.state.url}/entry/pdf/${data.paper_link}`}>View Paper</a>
+                                                :
+                                                <>No paper </>
+                                            }
+                                        </td>
                                     </tr>
                                 )
                             })

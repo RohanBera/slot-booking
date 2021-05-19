@@ -36,7 +36,6 @@ export default class Edit extends Component {
         if (name === "roll_number") {
             value = value.toUpperCase();
         }
-        console.log(name,value);
         this.setState({
             [name]: value
         })
@@ -44,7 +43,7 @@ export default class Edit extends Component {
 
     fileHandler = (event) => {
         this.setState({
-                paper_link: event.target.files[0]
+            paper_link: event.target.files[0]
         })
     }
 
@@ -53,11 +52,9 @@ export default class Edit extends Component {
 
         // update slot 
         if (this.state.updateDate) {
-            console.log(this.state.slot_number);
 
             try {
                 Axios.post(this.state.url + "/entry/userDate", { id: this.state.roll_number }).then((res) => {
-                    // console.log(res.data);
 
                     if (res.data.length === 0) {
                         this.setState({ slotMessage: "No user found! Please register first!" });
@@ -90,12 +87,11 @@ export default class Edit extends Component {
                                 this.setState({ slotMessage: res.data.message });
                             });
 
-                            // reload
-                            // if (!this.state.updatePaper) {
-                            //     setTimeout(() => {
-                            //         window.location.reload(1);
-                            //     }, 1500);
-                            // }
+                            if (!this.state.updatePaper) {
+                                setTimeout(() => {
+                                    window.location.reload(1);
+                                }, 1500);
+                            }
                         }
 
                     }
@@ -109,12 +105,9 @@ export default class Edit extends Component {
 
         // update paper
         if (this.state.updatePaper) {
-            console.log(this.state.paper_link);
-
 
             try {
                 Axios.post(this.state.url + "/entry/userDate", { id: this.state.roll_number }).then((res) => {
-                    // console.log(res.data);
                     if (res.data.length === 0) {
                         this.setState({ paperMessage: "No user found! Please register first!" });
                     }
@@ -125,34 +118,17 @@ export default class Edit extends Component {
                         const formData = new FormData()
                         formData.append('roll_number', this.state.roll_number);
                         formData.append('paper_link', this.state.paper_link);
-                        for(var pair of formData.entries()) {
-                            console.log(pair[0]+ ', '+ pair[1]);
-                         }                         
+
                         Axios.post(this.state.url + "/entry/paper-update", formData, { headers: head })
                             .then((res) => {
-                                console.log(res.statusText);
-                                this.setState({ message: res.data.message });
+                                this.setState({ paperMessage: res.data.message });
                             }).catch(err => {
-                                console.error(err.message);
+                                this.setState({ paperMessage: err.message });
                             });
 
-
-                        // var updateQuery = {
-                        //     id: this.state.roll_number,
-                        //     update: {
-                        //         paper_link: this.state.paper_link,
-                        //     }
-                        // };
-
-                        // Axios.post(this.state.url + "/entry/", updateQuery).then((res) => {
-                        //     this.setState({ paperMessage: res.data.message });
-                        // });
-
-
-                        // reload
-                        // setTimeout(() => {
-                        //     window.location.reload(1);
-                        // }, 1500);
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 1500);
                     }
                 });
             } catch (err) {
@@ -254,8 +230,7 @@ export default class Edit extends Component {
                                     <span className="red-star">*</span>
                                 </div>
                                 <div className="label-body">
-                                    You can attach your paper later. <br />
-                                You can edit your submission later. <br />
+                                    <br />
                                 </div>
                                 <input
                                     type="file"
