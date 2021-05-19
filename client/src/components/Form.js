@@ -8,7 +8,8 @@ export default class Form extends Component {
             dates: {},
             datesFetched: false,
             message: "",
-            url: "http://localhost:3001",
+            url: "https://biometrics-slot-booking.herokuapp.com",
+            // url: "http://localhost:3001",
             formData: {
                 user: "",
                 roll_number: "",

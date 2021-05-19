@@ -7,7 +7,8 @@ export default class Edit extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            url: "http://localhost:3001",
+            // url: "http://localhost:3001",
+            url: "https://biometrics-slot-booking.herokuapp.com",
             updateDate: false,
             updatePaper: false,
             datesFetched: false,

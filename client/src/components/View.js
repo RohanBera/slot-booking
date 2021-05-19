@@ -5,7 +5,8 @@ export default class View extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            url: "http://localhost:3001",
+            url: "https://biometrics-slot-booking.herokuapp.com",
+            // url: "http://localhost:3001",
             studentsData: {},
             fetchedStudentsData: false,
         }
