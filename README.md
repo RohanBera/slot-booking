@@ -1,4 +1,4 @@
-# Slot boooking ? 
+# Slot boooking ? 📖
 
 - So like, 11 ppl had to present some papers in class, on different days.
 - I didnt want to manually note down who is presenting what on which day, cuz it seems like a lot of work 
@@ -7,3 +7,7 @@
 <hr />
 
 Click <a href="https://biometrics-slot-booking.herokuapp.com/"> here</a> to check out the website.
+
+<hr />
+
+Special thanks to <a href="https://github.com/Subhash3"> Subhash </a> 🌻 for providing us light ☀️ along this dark path. ♥️ 
